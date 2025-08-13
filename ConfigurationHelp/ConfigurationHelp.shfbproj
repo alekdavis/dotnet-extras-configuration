@@ -13,8 +13,8 @@
     <ProjectGuid>{E95DEFBC-BF1B-4E71-8A7F-4B8B387D582D}</ProjectGuid>
     <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio adds them anyway -->
-    <AssemblyName>DotNetExtras.Help</AssemblyName>
-    <RootNamespace>DotNetExtras</RootNamespace>
+    <AssemblyName>DotNetExtras.Configuration.Help</AssemblyName>
+    <RootNamespace>DotNetExtras.Configuration</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
     <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
