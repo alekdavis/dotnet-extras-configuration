@@ -10,12 +10,22 @@ Use the `DotNetExtras.Configuration` library to:
 - Reload configuration settings.
 
 ## Documentation
+
 For complete documentation, usage details, and code samples, see:
 
 - [Documentation](https://alekdavis.github.io/dotnet-extras-configuration)
 - [Unit tests](https://github.com/alekdavis/dotnet-extras-configuration/tree/main/ConfigurationTests)
 
 ## Package
+
 Install the latest version of the `DotNetExtras.Configuration` Nuget package from:
 
 - [https://www.nuget.org/packages/DotNetExtras.Configuration](https://www.nuget.org/packages/DotNetExtras.Configuration)
+
+
+## See also
+
+Check out other `DotNetExtras` libraries at:
+
+- [https://github.com/alekdavis/dotnet-extras](https://github.com/alekdavis/dotnet-extras)
+
