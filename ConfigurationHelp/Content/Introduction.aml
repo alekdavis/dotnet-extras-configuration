@@ -28,9 +28,6 @@
             <para>Read an application configuration setting and assign its value to a strongly typed variable. Generally, application configuration values are read as strings, but because JSON-formatted application settings files can contain extended types (numbers, boolean, enums, lists, dictionaries), it can be useful to read them and directly assign to the appropriate variables.</para>
           </listItem>
         </list>
-        <para>
-          Behind the scenes, the library 
-        </para>
       </content>
       
       <sections>
