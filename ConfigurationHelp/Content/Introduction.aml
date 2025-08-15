@@ -52,7 +52,7 @@
               <para>
                The following examples illustrate how to use the <legacyItalic>DotNetExtras.Configuration</legacyItalic> API:
               </para>
-              <code language="cs" title="Using DotNetExtras.Configuration API">
+              <code language="cs" title="Using the DotNetExtras.Configuration API">
 <![CDATA[
 using Microsoft.Extensions.Configuration;
 using DotNetExtras.Configuration;
