@@ -96,7 +96,7 @@ bool? c = AppSettings.GetValue<bool>("KeyX:SubKeyC");
 
 // Get a strongly typed collection value from the configuration.
 string[]? d1 = AppSettings.GetArrayValue<string[]>("KeyX:SubKeyD1");
-int[]? d2 = AppSettings.GetArrayValue<int[]>("KeyX:SubKeyD2"");
+int[]? d2 = AppSettings.GetArrayValue<int[]>("KeyX:SubKeyD2");
 List<string>? e1 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE1");
 List<int>? e2 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE2");
 HashSet<string>? f1 = AppSettings.GetHashSetValue<string>("KeyX:SubKeyF1");

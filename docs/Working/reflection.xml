@@ -2,7 +2,7 @@
 <reflection>
   <assemblies>
     <assembly name="DotNetExtras.Configuration">
-      <assemblydata version="1.0.0.0" culture="" key="" hash="SHA1" />
+      <assemblydata version="1.0.1.0" culture="" key="" hash="SHA1" />
       <attributes>
         <attribute>
           <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
@@ -36,14 +36,14 @@
           <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
           <argument>
             <type api="T:System.String" ref="true" />
-            <value>1.0.0.0</value>
+            <value>1.0.1.0</value>
           </argument>
         </attribute>
         <attribute>
           <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
           <argument>
             <type api="T:System.String" ref="true" />
-            <value>1.0.0</value>
+            <value>1.0.1</value>
           </argument>
         </attribute>
         <attribute>
@@ -104,7 +104,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
       </containers>
@@ -124,7 +124,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
         <type api="T:DotNetExtras.Configuration.AppSettings" />
@@ -154,7 +154,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -189,7 +189,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -222,7 +222,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -255,7 +255,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -284,7 +284,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -306,7 +306,7 @@
       </parameters>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -329,7 +329,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
         <type api="T:DotNetExtras.Configuration.AppSettings" ref="true" />
@@ -346,7 +346,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
         <type api="T:DotNetExtras.Configuration.AppSettings.Global" />
@@ -363,7 +363,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -385,7 +385,7 @@
       </parameters>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -411,7 +411,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
         <type api="T:DotNetExtras.Configuration.AppSettings" ref="true" />
@@ -429,7 +429,7 @@
       </elements>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
         <type api="T:DotNetExtras.Configuration.AppSettings.Load" />
@@ -460,7 +460,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -485,7 +485,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
@@ -510,7 +510,7 @@
       </returns>
       <containers>
         <library assembly="DotNetExtras.Configuration" module="DotNetExtras.Configuration" kind="DynamicallyLinkedLibrary">
-          <assemblydata version="1.0.0" />
+          <assemblydata version="1.0.1" />
           <noAptca />
         </library>
         <namespace api="N:DotNetExtras.Configuration" />
