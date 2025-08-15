@@ -14,7 +14,7 @@ Use the `DotNetExtras.Configuration` library to:
 The following examples illustrate how to use the `DotNetExtras.Configuration` API: 
 
 ```cs
-using Microsoft.Extensions.Configuration
+using Microsoft.Extensions.Configuration;
 using DotNetExtras.Configuration;
 ...
 IConfiguration? config = null;
