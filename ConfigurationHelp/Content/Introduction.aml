@@ -11,10 +11,128 @@
       </para>
     </introduction>
 
+    <section address="Overview">
+      <title>Overview</title>
+      <content>
+        <para>
+          The <legacyItalic>DotNetExtras.Configuration</legacyItalic> library handles three basic cases:
+        </para>
+        <list class="ordered">
+          <listItem>
+            <para>Loading configuration form a specific data source (dictionary variable, JSON string, JSON file). This can be useful for mocking application settings in unit tests.</para>
+          </listItem>
+          <listItem>
+            <para>Reloading application configuration settings from the original providers. Generally, once the application configuration settings are loaded from the source, they will be cashed in memory, which improves performance; however, there are cases, when an application may need to reload the configuration. For example, a long running service may need to re-read a client secret stored in the secret vault or an application safe to make sure the value is up to date. In cases like this, reloading the configuration can be useful.</para>
+          </listItem>
+          <listItem>
+            <para>Read an application configuration setting and assign its value to a strongly typed variable. Generally, application configuration values are read as strings, but because JSON-formatted application settings files can contain extended types (numbers, boolean, enums, lists, dictionaries), it can be useful to read them and directly assign to the appropriate variables.</para>
+          </listItem>
+        </list>
+        <para>
+          Behind the scenes, the library 
+        </para>
+      </content>
+      
+      <sections>
+               
+        <section address="Implementation">
+          <title>Implementation</title>
+            <content>
+              <para>
+                <legacyItalic>DotNetExtras.Configuration</legacyItalic> uses the 
+                <externalLink>
+                  <linkText>Microsoft.Extensions.Configuration</linkText>
+                  <linkUri>https://www.nuget.org/packages/microsoft.extensions.configuration/</linkUri>
+                  <linkTarget>_blank</linkTarget>
+                </externalLink> and related libraries, so it supports the original capabilities.
+              </para>
+            </content>
+        </section>
+        
+        <section address="Example">
+          <title>Example</title>
+            <content>
+              <para>
+               The following examples illustrate how to use the <legacyItalic>DotNetExtras.Configuration</legacyItalic> API:
+              </para>
+              <code language="cs" title="Using DotNetExtras.Configuration API">
+<![CDATA[
+using Microsoft.Extensions.Configuration;
+using DotNetExtras.Configuration;
+...
+IConfiguration? config = null;
+
+// Load configuration from a JSON file.
+config = AppSettings.Load.FromJsonFile("C:\\AppSettings.json");
+
+// Load configuration from a JSON string.
+config = AppSettings.Load.FromJsonFile("{\"a\":{\"b\":\"c\"}}");
+
+// Load configuration from a dictionary (keys of array elements must be indexed).
+config = AppSettings.Load.FromDictionary(
+    new Dictionary<string,string?>
+    {
+        {"A", "ValueA"},
+        {"B:X", "ValueB"},
+        {"C:Z:0", "ValueC"},
+        {"C:Z:1", "ValueD"},
+        {"C:Z:2", "ValueE"},
+    }
+);
+
+// Save configuration in a static global variable.
+AppSettings.Global.Set(config);
+
+// Get configuration from the static global variable.
+config = AppSettings.Global.Get();
+
+// Reinitialize the configuration from the original provider.
+AppSettings.Reload(config);
+
+// Get a strongly-typed primitive value from the configuration.
+string? a = AppSettings.GetValue<string>("KeyX:SubKeyA");
+int? b = AppSettings.GetValue<int>("KeyX:SubKeyB");
+bool? c = AppSettings.GetValue<bool>("KeyX:SubKeyC");
+
+// Get a strongly typed collection value from the configuration.
+string[]? d1 = AppSettings.GetArrayValue<string[]>("KeyX:SubKeyD1");
+int[]? d2 = AppSettings.GetArrayValue<int[]>("KeyX:SubKeyD2"");
+List<string>? e1 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE1");
+List<int>? e2 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE2");
+HashSet<string>? f1 = AppSettings.GetHashSetValue<string>("KeyX:SubKeyF1");
+HashSet<int>? f2 = AppSettings.GetHashSetValue<string>("KeyX:SubKeyF2");
+Dictionary<string, string>? g1 = AppSettings.GetDictionaryValue<string, string>("KeyX:SubKeyG1");
+Dictionary<string, int>? g2 = AppSettings.GetDictionaryValue<string, int>("KeyX:SubKeyG2");
+
+// Get a strongly typed enum value from the configuration.
+MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
+]]>
+              </code>
+              <para>             
+                For the complete example and other samples covering additional scenarios, see the source code (and read the comments) of the 
+                <externalLink>
+                  <linkText>unit test project</linkText>
+                  <linkUri>https://github.com/alekdavis/dotnet-extras-configuration/tree/main/ConfigurationTests</linkUri>
+                  <linkTarget>_blank</linkTarget>
+                </externalLink>.
+              </para>
+            </content>
+        </section>
+    
+      </sections>     
+    </section>
+
+    
     <relatedTopics>
       <externalLink>
-        <linkText>DotNetExtras.Configuration Nuget package</linkText>
+        <linkText>DotNetExtras.Configuration NuGet package</linkText>
         <linkUri>https://www.nuget.org/packages/DotNetExtras.Configuration</linkUri>
+        <linkTarget>_blank</linkTarget>
+      </externalLink>
+      <externalLink>
+        <linkText>DotNetExtras.Configuration project repository</linkText>
+        <linkUri>https://github.com/alekdavis/dotnet-extras-configuration</linkUri>
+        <linkTarget>_blank</linkTarget>
       </externalLink>
     </relatedTopics>
   </developerConceptualDocument>

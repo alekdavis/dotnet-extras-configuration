@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// Ignore Spelling: json
+
+using Microsoft.Extensions.Configuration;
 using System.Text;
 
 namespace DotNetExtras.Configuration;
@@ -11,7 +13,7 @@ public static partial class AppSettings
     public static class Load
     {
         /// <summary>
-        /// Loads the application settings from a dictionary.
+        /// Loads the application configuration settings from a dictionary.
         /// </summary>
         /// <param name="dictionary">
         /// A dictionary containing the application settings.
@@ -28,7 +30,7 @@ public static partial class AppSettings
         /// </remarks>
         /// <example>
         /// <code>
-        /// IConfiguration config = SetConfiguration(
+        /// IConfiguration config = AppConfiguration.Load.FromDictionary(
         ///     new Dictionary&lt;string,string?&gt;
         ///     {
         ///         {"ValueSettingA", "Value1"},
@@ -53,7 +55,7 @@ public static partial class AppSettings
         }
 
         /// <summary>
-        /// Loads the application settings from a JSON string.
+        /// Loads the application configuration settings from a JSON string.
         /// </summary>
         /// <param name="json">
         /// A JSON string containing the application settings.
@@ -73,7 +75,7 @@ public static partial class AppSettings
         }
 
         /// <summary>
-        /// Loads the application settings from a JSON file.
+        /// Loads the application configuration settings from a JSON file.
         /// </summary>
         /// <param name="filePath">
         /// Path to the JSON file containing the application settings.

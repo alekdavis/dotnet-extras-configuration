@@ -1,4 +1,6 @@
-﻿using DotNetExtras.Configuration;
+﻿// Ignore Spelling: json
+
+using DotNetExtras.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace ConfigurationLibTest;

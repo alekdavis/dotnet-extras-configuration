@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>DotNetExtras.Configuration</name>
+  </assembly>
+  <members>
+    <member name="T:DotNetExtras.Configuration.AppSettings">
+      <summary>
+            Implements methods for setting and retrieving application configuration settings.
+            </summary>
+      <remarks>
+      </remarks>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.GetValue``1(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Returns a primitive application setting value for the given key.
+            </summary>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <typeparam name="T">
+            Data type of the value.
+            </typeparam>
+      <param name="key">
+            Name of the configuration setting key.
+            </param>
+      <returns>
+            Configuration setting holding a single value.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.GetArrayValue``1(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Returns a configuration setting array value for the given key.
+            </summary>
+      <typeparam name="T">
+            Data type of the list elements.
+            </typeparam>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="key">
+            Name of the configuration setting key.
+            </param>
+      <returns>
+            Configuration setting holding an array.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.GetListValue``1(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Returns a configuration setting list value for the given key.
+            </summary>
+      <typeparam name="T">
+            Data type of the list elements.
+            </typeparam>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="key">
+            Name of the configuration setting key.
+            </param>
+      <returns>
+            Configuration setting holding a list.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.GetHashSetValue``1(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Returns a configuration setting hash set value for the given key.
+            </summary>
+      <typeparam name="T">
+            Data type of the hash set elements.
+            </typeparam>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="key">
+            Name of the configuration setting key.
+            </param>
+      <returns>
+            Configuration setting holding a hash set.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.GetDictionaryValue``2(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Returns a configuration setting dictionary value for the given key.
+            </summary>
+      <typeparam name="TKey">
+            Data type of the dictionary keys (currently, only string keys are supported).
+            </typeparam>
+      <typeparam name="TValue">
+            Data type of the dictionary values.
+            </typeparam>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="key">
+            Name of the configuration setting key.
+            </param>
+      <returns>
+            Configuration setting holding a dictionary.
+            </returns>
+    </member>
+    <member name="T:DotNetExtras.Configuration.AppSettings.Global">
+      <summary>
+            Groups methods that allow the application 
+            to set the configuration settings once during startup
+            and then get them from anywhere in the code.
+            </summary>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Global.Get">
+      <summary>
+            Returns application configuration settings initialized by the 
+            <see cref="M:DotNetExtras.Configuration.AppSettings.Global.Set(Microsoft.Extensions.Configuration.IConfiguration)" /> method during application startup.
+            </summary>
+      <remarks>
+            To make it work, call the static <see cref="M:DotNetExtras.Configuration.AppSettings.Global.Set(Microsoft.Extensions.Configuration.IConfiguration)" /> method
+            in the application startup sequence, e.g.:
+            <code>
+            AppSettings.Global.Set(builder.Configuration);
+            </code>
+            If the <see cref="M:DotNetExtras.Configuration.AppSettings.Global.Set(Microsoft.Extensions.Configuration.IConfiguration)" /> method has not been called,
+            this method will always return <c>null</c>.
+            </remarks>
+      <returns>
+            The application configuration settings initialized by the <see cref="M:DotNetExtras.Configuration.AppSettings.Global.Set(Microsoft.Extensions.Configuration.IConfiguration)" /> method.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Global.Set(Microsoft.Extensions.Configuration.IConfiguration)">
+      <summary>
+            Initializes the configuration object,
+            so that it can be accessed from anywhere in the code.
+            </summary>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <remarks>
+            This method should be called once during the application startup, e.g.:
+            <code>
+            AppSettings.Global.Set(builder.Configuration);
+            </code>
+            Once the application settings are initialized,
+            they can be accessed from anywhere in the application
+            via the static <see cref="N:DotNetExtras.Configuration" /> property:
+            <code>
+            string? someValue = AppSettings.Global.Get()?["key"];
+            </code></remarks>
+    </member>
+    <member name="T:DotNetExtras.Configuration.AppSettings.Load">
+      <summary>
+            Groups methods that load the application settings form different sources.
+            </summary>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Load.FromDictionary(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+      <summary>
+            Loads the application configuration settings from a dictionary.
+            </summary>
+      <param name="dictionary">
+            A dictionary containing the application settings.
+            </param>
+      <returns>
+            Loaded application configuration settings.
+            </returns>
+      <remarks>
+            You can pass array items by appending zero-based index to the key as illustrated
+            in the example (e.g."ServiceA:ArraySetting1:0", "ServiceA:ArraySetting1:1", etc.).
+            See
+            <see href="https://stackoverflow.com/questions/37825107/net-core-use-configuration-to-bind-to-options-with-array" />
+            for details.
+            </remarks>
+      <example>
+        <code>
+            IConfiguration config = AppConfiguration.Load.FromDictionary(
+                new Dictionary&lt;string,string?&gt;
+                {
+                    {"ValueSettingA", "Value1"},
+                    {"SectionB:ValueSettingX", "ValueX"},
+                    {"SectionB:ValueSettingY", "ValueY"},
+                    {"SectionB:ValueSettingZ", "ValueZ"},
+                    {"SectionC:ArraySetting1:0", "Value0"},
+                    {"SectionC:ArraySetting1:1", "Value1"},
+                    {"SectionC:ArraySetting1:2", "Value2"},
+                }
+            );
+            </code>
+      </example>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Load.FromJsonString(System.String)">
+      <summary>
+            Loads the application configuration settings from a JSON string.
+            </summary>
+      <param name="json">
+            A JSON string containing the application settings.
+            </param>
+      <returns>
+            Loaded application configuration settings.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Load.FromJsonFile(System.String)">
+      <summary>
+            Loads the application configuration settings from a JSON file.
+            </summary>
+      <param name="filePath">
+            Path to the JSON file containing the application settings.
+            </param>
+      <returns>
+            Loaded application configuration settings.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.Reload(Microsoft.Extensions.Configuration.IConfiguration@)">
+      <summary>
+            Forces configuration settings to be reloaded from the provider.
+            </summary>
+      <remarks>
+            This method is useful when configuration settings are stored in a location that can change at runtime, 
+            such as Azure Key Vault, password safe, and so on.
+            Fore details, see
+            <see href="https://learn.microsoft.com/en-us/aspnet/core/security/key-vault-configuration?view=aspnetcore-8.0#reload-secrets" />.
+            </remarks>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+    </member>
+    <member name="N:DotNetExtras.Configuration">
+      <summary>Simplifies access and usage of the application configuration settings.</summary>
+    </member>
+  </members>
+</doc>

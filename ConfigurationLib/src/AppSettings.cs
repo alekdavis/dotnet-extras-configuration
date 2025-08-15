@@ -131,7 +131,7 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding a dictionary.
     /// </returns>
-    public static Dictionary<TKey,TValue?>? ToDictionary<TKey,TValue>
+    public static Dictionary<TKey,TValue?>? GetDictionaryValue<TKey,TValue>
     (
         IConfiguration configuration,
         string key
