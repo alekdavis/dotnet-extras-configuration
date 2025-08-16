@@ -118,8 +118,7 @@ MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
     
       </sections>     
     </section>
-
-    
+   
     <relatedTopics>
       <externalLink>
         <linkText>DotNetExtras.Configuration NuGet package</linkText>
