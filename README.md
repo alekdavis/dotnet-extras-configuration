@@ -8,7 +8,7 @@ Use the `DotNetExtras.Configuration` library to:
 - Retrieve application settings and assign them to strongly-typed variables including primitive types (`string`, `int`, `enum`, `boolean`), arrays, collections, lists, hash sets, and dictionaries.
 - Set configuration once during application startup and access it from anywhere in the code.
 - Reload configuration settings.
-- 
+
 ## Usage
 
 The following examples illustrate how to use the `DotNetExtras.Configuration` API: 
@@ -73,7 +73,7 @@ MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
 
 ## Documentation
 
-For complete documentation, usage details, and code samples, see:
+For the complete documentation, usage details, and code samples, see:
 
 - [Documentation](https://alekdavis.github.io/dotnet-extras-configuration)
 - [Unit tests](https://github.com/alekdavis/dotnet-extras-configuration/tree/main/ConfigurationTests)

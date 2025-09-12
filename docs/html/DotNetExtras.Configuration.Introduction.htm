@@ -6,7 +6,7 @@
                 <a href="https://www.nuget.org/packages/microsoft.extensions.configuration/" target="_blank" rel="noopener noreferrer">Microsoft.Extensions.Configuration</a> and related libraries, so it supports the original capabilities.
               </p><h4 id="Example" class="quickLinkHeader">Example</h4><p>
                The following examples illustrate how to use the <em>DotNetExtras.Configuration</em> API:
-              </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Using DotNetExtras.Configuration API</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">using Microsoft.Extensions.Configuration;
+              </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Using the DotNetExtras.Configuration API</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">using Microsoft.Extensions.Configuration;
 using DotNetExtras.Configuration;
 ...
 IConfiguration? config = null;
@@ -15,7 +15,7 @@ IConfiguration? config = null;
 config = AppSettings.Load.FromJsonFile("C:\\AppSettings.json");
 
 // Load configuration from a JSON string.
-config = AppSettings.Load.FromJsonFile("{\"a\":{\"b\":\"c\"}}");
+config = AppSettings.Load.FromJsonString("{\"a\":{\"b\":\"c\"}}");
 
 // Load configuration from a dictionary (keys of array elements must be indexed).
 config = AppSettings.Load.FromDictionary(
@@ -40,18 +40,24 @@ AppSettings.Reload(config);
 
 // Get a strongly-typed primitive value from the configuration.
 string? a = AppSettings.GetValue&lt;string&gt;("KeyX:SubKeyA");
-int? b = AppSettings.GetValue&lt;int&gt;("KeyX:SubKeyB");
-bool? c = AppSettings.GetValue&lt;bool&gt;("KeyX:SubKeyC");
+int?    b = AppSettings.GetValue&lt;int&gt;("KeyX:SubKeyB");
+bool?   c = AppSettings.GetValue&lt;bool&gt;("KeyX:SubKeyC");
 
-// Get a strongly typed collection value from the configuration.
+// Get a strongly typed array value from the configuration.
 string[]? d1 = AppSettings.GetArrayValue&lt;string[]&gt;("KeyX:SubKeyD1");
-int[]? d2 = AppSettings.GetArrayValue&lt;int[]&gt;("KeyX:SubKeyD2");
+int[]?    d2 = AppSettings.GetArrayValue&lt;int[]&gt;("KeyX:SubKeyD2");
+
+// Get a strongly typed list value from the configuration.
 List&lt;string&gt;? e1 = AppSettings.GetListValue&lt;List&lt;string&gt;&gt;("KeyX:SubKeyE1");
-List&lt;int&gt;? e2 = AppSettings.GetListValue&lt;List&lt;string&gt;&gt;("KeyX:SubKeyE2");
+List&lt;int&gt;?    e2 = AppSettings.GetListValue&lt;List&lt;string&gt;&gt;("KeyX:SubKeyE2");
+
+// Get a strongly typed hash set value from the configuration.
 HashSet&lt;string&gt;? f1 = AppSettings.GetHashSetValue&lt;string&gt;("KeyX:SubKeyF1");
-HashSet&lt;int&gt;? f2 = AppSettings.GetHashSetValue&lt;string&gt;("KeyX:SubKeyF2");
+HashSet&lt;int&gt;?    f2 = AppSettings.GetHashSetValue&lt;string&gt;("KeyX:SubKeyF2");
+
+// Get a strongly typed dictionary value from the configuration.
 Dictionary&lt;string, string&gt;? g1 = AppSettings.GetDictionaryValue&lt;string, string&gt;("KeyX:SubKeyG1");
-Dictionary&lt;string, int&gt;? g2 = AppSettings.GetDictionaryValue&lt;string, int&gt;("KeyX:SubKeyG2");
+Dictionary&lt;string, int&gt;?    g2 = AppSettings.GetDictionaryValue&lt;string, int&gt;("KeyX:SubKeyG2");
 
 // Get a strongly typed enum value from the configuration.
 MyEnum? h = AppSettings.GetEnumValue&lt;MyEnum&gt;("KeyX:SubKeyH");</code></pre></div></div><p>             
