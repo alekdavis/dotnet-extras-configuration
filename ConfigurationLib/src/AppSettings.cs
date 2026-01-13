@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.Text;
 
 namespace DotNetExtras.Configuration;
 /// <summary>
 /// Implements methods for setting and retrieving application configuration settings.
 /// </summary>
-/// <remarks>
-/// </remarks>
 public static partial class AppSettings
 {
+    private static readonly string _refKeyName = "$ref";
+
     /// <summary>
     /// Returns a primitive application setting value for the given key.
     /// </summary>
@@ -30,7 +29,22 @@ public static partial class AppSettings
         string key
     )
     {
-        return configuration.GetValue<T?>(key);
+        T? value = configuration.GetValue<T?>(key);
+
+        // For some reason, GetValue returns an empty string if the value is null,
+        // so for strings, we need special handling.
+        if ((typeof(T) == typeof(string) && string.IsNullOrEmpty(value?.ToString())) || 
+            Equals(value, default(T)))
+        {
+            string? refKey = GetRefKey(configuration, key);
+
+            if (refKey != null)
+            {
+                value = configuration.GetValue<T?>(refKey);
+            }
+        }
+
+        return value;
     }
 
     /// <summary>
@@ -55,8 +69,20 @@ public static partial class AppSettings
     )
     {
         IConfigurationSection section = configuration.GetSection(key);
+        T[]? value = section?.Get<T[]>();
 
-        return section?.Get<T[]>();
+        if (value == null)
+        {
+            string? refKey = GetRefKey(configuration, key);
+
+            if (refKey != null)
+            {
+                section = configuration.GetSection(refKey);
+                value = section?.Get<T[]>();
+            }
+        }
+
+        return value;
     }
 
     /// <summary>
@@ -81,8 +107,20 @@ public static partial class AppSettings
     )
     {
         IConfigurationSection section = configuration.GetSection(key);
+        List<T>? value = section?.Get<List<T>>();
 
-        return section?.Get<List<T>>();
+        if (value == null)
+        {
+            string? refKey = GetRefKey(configuration, key);
+
+            if (refKey != null)
+            {
+                section = configuration.GetSection(refKey);
+                value = section?.Get<List<T>>();
+            }
+        }
+
+        return value;
     }
 
     /// <summary>
@@ -139,7 +177,52 @@ public static partial class AppSettings
     where TKey : notnull
     {
         IConfigurationSection section = configuration.GetSection(key);
+        Dictionary<TKey,TValue?>? value = section?.Get<Dictionary<TKey,TValue?>>();
 
-        return section?.Get<Dictionary<TKey,TValue?>>();
+        if (value == null)
+        {
+            string? refKey = GetRefKey(configuration, key);
+
+            if (refKey != null)
+            {
+                section = configuration.GetSection(refKey);
+                value = section?.Get<Dictionary<TKey,TValue?>>();
+            }
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// Gets the redirection key from the $ref configuration setting at the same level as the specified key.
+    /// </summary>
+    /// <param name="configuration">
+    /// Application configuration settings.
+    /// </param>
+    /// <param name="key">
+    /// Name of the configuration setting key.
+    /// </param>
+    /// <returns>
+    /// Redirection key if found; otherwise, null.
+    /// </returns>
+    private static string? GetRefKey
+    (
+        IConfiguration configuration,
+        string key
+    )
+    {
+        int lastSeparatorIndex = key.LastIndexOf(':');
+
+        string keyName = lastSeparatorIndex >= 0
+            ? key[(lastSeparatorIndex + 1)..]
+            : key;
+        
+        string refKeyPath = lastSeparatorIndex >= 0
+            ? key[..lastSeparatorIndex] + $":{_refKeyName}:" + keyName
+            : $"{_refKeyName}:" + keyName;
+
+        string? refKey = configuration.GetValue<string?>(refKeyPath);
+
+        return refKey;
     }
 }

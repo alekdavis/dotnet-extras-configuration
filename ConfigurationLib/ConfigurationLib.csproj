@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
     <AssemblyName>DotNetExtras.Configuration</AssemblyName>
     <RootNamespace>DotNetExtras.Configuration</RootNamespace>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Title>$(AssemblyName)</Title>
     <Authors>Alek Davis</Authors>
     <Description>A .NET Core library handling application settings.</Description>
-    <Copyright>© 2025 Alek Davis</Copyright>
+    <Copyright>© 2026 Alek Davis</Copyright>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>$(AssemblyName)</PackageId>
     <PackageProjectUrl>https://alekdavis.github.io/dotnet-extras-configuration</PackageProjectUrl>
@@ -21,7 +21,7 @@
     <IncludeSourceRevisionInInformationalVersion>False</IncludeSourceRevisionInInformationalVersion>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageReleaseNotes>Updated dependencies.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added support for key redirection.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

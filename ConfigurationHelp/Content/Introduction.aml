@@ -111,6 +111,35 @@ Dictionary<string, int>?    g2 = AppSettings.GetDictionaryValue<string, int>("Ke
 MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
 ]]>
               </code>
+              <para>
+The library supports configuration value redirection using the <legacyItalic>$ref</legacyItalic> key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.
+              </para>
+              <para> 
+When a configuration key's value is <legacyItalic>null</legacyItalic> or does not exist, the library checks for a <legacyItalic>$ref</legacyItalic> key at the same hierarchical level. The <legacyItalic>$ref</legacyItalic> key contains the name of the original key as a property, with its value pointing to the target key from which to retrieve the actual value.
+              </para>
+              <para> 
+Here is an example of the JSON configuration that demonstrates the use of <legacyItalic>$ref</legacyItalic> for value redirection (the client secret value is provided for demonstration only, in a real application it should be protected):              
+              </para>
+              <code language="json" title="Example of JSON configuration with $ref">
+<![CDATA[
+{
+  "ServiceA": {
+    "ClientId": "ab2309cd-1234-4ef0-9876-abcdef123456",
+    "ClientSecret": "s3cr3tV@lu3"
+  },
+  "ServiceB": {
+    "$ref": {
+      // Redirect ServiceB's ClientId and ClientSecret to ServiceA.
+      "ClientId": "ServiceA:ClientId" 
+      "ClientSecret": "ServiceA:ClientSecret"
+    },
+  }"
+}
+]]>
+              </code>
+              <para>
+No special code is needed to support <legacyItalic>$ref</legacyItalic> redirection; it is handled automatically by the <legacyItalic>DotNetExtras.Configuration</legacyItalic> library when retrieving configuration values.                
+              </para>
               <para>             
                 For the complete example and other samples covering additional scenarios, see the source code (and read the comments) of the 
                 <externalLink>

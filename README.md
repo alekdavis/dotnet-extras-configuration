@@ -70,6 +70,29 @@ Dictionary<string, int>?    g2 = AppSettings.GetDictionaryValue<string, int>("Ke
 // Get a strongly typed enum value from the configuration.
 MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
 ```
+The library supports configuration value redirection using the `$ref` key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.
+
+When a configuration key's value is `null` or does not exist, the library checks for a `$ref` key at the same hierarchical level. The `$ref` key contains the name of the original key as a property, with its value pointing to the target key from which to retrieve the actual value.
+
+Here is an example of the JSON configuration that demonstrates the use of `$ref` for value redirection (the client secret value is provided for demonstration only, in a real application it should be protected):
+
+```json
+{
+  "ServiceA": {
+    "ClientId": "ab2309cd-1234-4ef0-9876-abcdef123456",
+    "ClientSecret": "s3cr3tV@lu3"
+  },
+  "ServiceB": {
+    "$ref": {
+      // Redirect ServiceB's ClientId and ClientSecret to ServiceA.
+      "ClientId": "ServiceA:ClientId" 
+      "ClientSecret": "ServiceA:ClientSecret"
+    },
+  }"
+}
+```
+
+No special code is needed to support `$ref` redirection; it is handled automatically by the `DotNetExtras.Configuration` library when retrieving configuration values.
 
 ## Documentation
 

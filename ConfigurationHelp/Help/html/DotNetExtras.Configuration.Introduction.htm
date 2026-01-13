@@ -60,10 +60,30 @@ Dictionary&lt;string, string&gt;? g1 = AppSettings.GetDictionaryValue&lt;string,
 Dictionary&lt;string, int&gt;?    g2 = AppSettings.GetDictionaryValue&lt;string, int&gt;("KeyX:SubKeyG2");
 
 // Get a strongly typed enum value from the configuration.
-MyEnum? h = AppSettings.GetEnumValue&lt;MyEnum&gt;("KeyX:SubKeyH");</code></pre></div></div><p>             
+MyEnum? h = AppSettings.GetEnumValue&lt;MyEnum&gt;("KeyX:SubKeyH");</code></pre></div></div><p>
+The library supports configuration value redirection using the <em>$ref</em> key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.
+              </p><p> 
+When a configuration key's value is <em>null</em> or does not exist, the library checks for a <em>$ref</em> key at the same hierarchical level. The <em>$ref</em> key contains the name of the original key as a property, with its value pointing to the target key from which to retrieve the actual value.
+              </p><p> 
+Here is an example of the JSON configuration that demonstrates the use of <em>$ref</em> for value redirection (the client secret value is provided for demonstration only, in a real application it should be protected):              
+              </p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Example of JSON configuration with $ref</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-json">{
+  "ServiceA": {
+    "ClientId": "ab2309cd-1234-4ef0-9876-abcdef123456",
+    "ClientSecret": "s3cr3tV@lu3"
+  },
+  "ServiceB": {
+    "$ref": {
+      // Redirect ServiceB's ClientId and ClientSecret to ServiceA.
+      "ClientId": "ServiceA:ClientId" 
+      "ClientSecret": "ServiceA:ClientSecret"
+    },
+  }"
+}</code></pre></div></div><p>
+No special code is needed to support <em>$ref</em> redirection; it is handled automatically by the <em>DotNetExtras.Configuration</em> library when retrieving configuration values.                
+              </p><p>             
                 For the complete example and other samples covering additional scenarios, see the source code (and read the comments) of the 
                 <a href="https://github.com/alekdavis/dotnet-extras-configuration/tree/main/ConfigurationTests" target="_blank" rel="noopener noreferrer">unit test project</a>.
-              </p></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="https://www.nuget.org/packages/DotNetExtras.Configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration NuGet package</a></div><div><a href="https://github.com/alekdavis/dotnet-extras-configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration project repository</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Overview</a><ul class="menu"><li><a class="quickLink">Implementation</a></li><li><a class="quickLink">Example</a></li></ul></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div id="FooterContent" class="column"><p>Copyright © 2025 Alek Davis</p><div class="feedbackLink">Send comments on this topic to
+              </p></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="https://www.nuget.org/packages/DotNetExtras.Configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration NuGet package</a></div><div><a href="https://github.com/alekdavis/dotnet-extras-configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration project repository</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Overview</a><ul class="menu"><li><a class="quickLink">Implementation</a></li><li><a class="quickLink">Example</a></li></ul></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div id="FooterContent" class="column"><p>Copyright © 2026 Alek Davis</p><div class="feedbackLink">Send comments on this topic to
         <a id="HT_MailLink" href="mailto:alek.davis%40gmail.com?Subject=DotNetExtras.Configuration%20Library%20Documentation">Alek Davis</a></div>
         <script type="text/javascript">
         var HT_mailLink = document.getElementById("HT_MailLink");
