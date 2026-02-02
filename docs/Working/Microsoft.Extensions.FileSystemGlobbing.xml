@@ -40,9 +40,9 @@
       <returns>The directory.</returns>
     </member>
     <member name="M:Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoWrapper.GetFile(System.String)">
-      <summary>Returns an instance of <xref data-throw-if-not-resolved="true" uid="Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase"></xref> that represents a file in the directory.</summary>
+      <summary>Returns an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase" /> that represents a file in the directory.</summary>
       <param name="name" />
-      <returns>Instance of <xref data-throw-if-not-resolved="true" uid="Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase"></xref> even if file does not exist.</returns>
+      <returns>Instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase" /> even if file does not exist.</returns>
     </member>
     <member name="P:Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoWrapper.FullName">
       <summary>Returns the full path to the directory.</summary>
@@ -129,9 +129,9 @@
       <returns>Collection of files and directories.</returns>
     </member>
     <member name="M:Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo.GetDirectory(System.String)">
-      <summary>Returns an instance of <xref data-throw-if-not-resolved="true" uid="Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase"></xref> that represents a subdirectory.</summary>
+      <summary>Returns an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase" /> that represents a subdirectory.</summary>
       <param name="path">The directory name.</param>
-      <returns>Instance of <xref data-throw-if-not-resolved="true" uid="Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase"></xref> even if directory does not exist.</returns>
+      <returns>Instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.DirectoryInfoBase" /> even if directory does not exist.</returns>
     </member>
     <member name="M:Microsoft.Extensions.FileSystemGlobbing.InMemoryDirectoryInfo.GetFile(System.String)">
       <summary>Returns an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Abstractions.FileInfoBase" /> that matches the <paramref name="path" /> given.</summary>
@@ -554,6 +554,10 @@
     </member>
     <member name="M:Microsoft.Extensions.FileSystemGlobbing.Matcher.#ctor">
       <summary>Initializes an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Matcher" /> using case-insensitive matching.</summary>
+    </member>
+    <member name="M:Microsoft.Extensions.FileSystemGlobbing.Matcher.#ctor(System.StringComparison,System.Boolean)">
+      <param name="comparisonType" />
+      <param name="preserveFilterOrder" />
     </member>
     <member name="M:Microsoft.Extensions.FileSystemGlobbing.Matcher.#ctor(System.StringComparison)">
       <summary>Initializes an instance of <see cref="T:Microsoft.Extensions.FileSystemGlobbing.Matcher" /> using the specified string comparison method.</summary>

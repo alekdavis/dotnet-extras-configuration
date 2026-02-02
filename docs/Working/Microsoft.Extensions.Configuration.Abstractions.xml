@@ -205,7 +205,7 @@
             <summary>
             Returns a <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> that can be used to observe when this configuration is reloaded.
             </summary>
-            <returns>A <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/>.</returns>
+            <returns>An <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> token if this provider supports change tracking; otherwise, <see langword="null" />.</returns>
         </member>
         <member name="T:Microsoft.Extensions.Configuration.IConfigurationBuilder">
             <summary>
@@ -333,20 +333,6 @@
             </summary>
             <param name="builder">The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>.</param>
             <returns>An <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/></returns>
-        </member>
-        <member name="M:System.ThrowHelper.ThrowIfNull(System.Object,System.String)">
-            <summary>Throws an <see cref="T:System.ArgumentNullException"/> if <paramref name="argument"/> is null.</summary>
-            <param name="argument">The reference type argument to validate as non-null.</param>
-            <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
-        </member>
-        <member name="M:System.ThrowHelper.IfNullOrWhitespace(System.String,System.String)">
-            <summary>
-            Throws either an <see cref="T:System.ArgumentNullException"/> or an <see cref="T:System.ArgumentException"/>
-            if the specified string is <see langword="null"/> or whitespace respectively.
-            </summary>
-            <param name="argument">String to be checked for <see langword="null"/> or whitespace.</param>
-            <param name="paramName">The name of the parameter being checked.</param>
-            <returns>The original value of <paramref name="argument"/>.</returns>
         </member>
         <member name="P:System.SR.InvalidSectionName">
             <summary>Section '{0}' not found in configuration.</summary>

@@ -8,7 +8,7 @@ public partial class AppSettingsTests
     [InlineData("{}", "a", true)]
     [InlineData("{\"b\":[\"a\"]}", "a", true)]
     [InlineData("{\"a\":null}", "a", true)]
-    [InlineData("{\"a\":[]}", "a", true)]
+    [InlineData("{\"a\":[]}", "a", false)]
     [InlineData("{\"a\":[\"b\",\"c\",\"d\"]}", "a", false, "b", "c", "d")]
     [InlineData("{\"a\":{\"a\":[\"b\",\"c\",\"d\"]}}", "a:a", false, "b", "c", "d")]
     // Redirection tests - top level
@@ -52,7 +52,7 @@ public partial class AppSettingsTests
     [InlineData("{}", "a", true)]
     [InlineData("{\"b\":[1]}", "a", true)]
     [InlineData("{\"a\":null}", "a", true)]
-    [InlineData("{\"a\":[]}", "a", true)]
+    [InlineData("{\"a\":[]}", "a", false)]
     [InlineData("{\"a\":[\"1\",\"2\",\"3\"]}", "a", false, 1, 2, 3)]
     [InlineData("{\"a\":[1,2,3]}", "a", false, 1, 2, 3)]
     [InlineData("{\"a\":{\"a\":[\"1\",\"2\",\"3\"]}}", "a:a", false, 1, 2, 3)]

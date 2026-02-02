@@ -63,24 +63,24 @@
         </member>
         <member name="M:Microsoft.Extensions.FileProviders.IFileProvider.GetFileInfo(System.String)">
             <summary>
-            Locate a file at the given path.
+            Locates a file at the given path.
             </summary>
-            <param name="subpath">Relative path that identifies the file.</param>
+            <param name="subpath">The relative path that identifies the file.</param>
             <returns>The file information. Caller must check Exists property.</returns>
         </member>
         <member name="M:Microsoft.Extensions.FileProviders.IFileProvider.GetDirectoryContents(System.String)">
             <summary>
-            Enumerate a directory at the given path, if any.
+            Enumerates a directory at the given path, if any.
             </summary>
             <param name="subpath">The relative path that identifies the directory.</param>
             <returns>The contents of the directory.</returns>
         </member>
         <member name="M:Microsoft.Extensions.FileProviders.IFileProvider.Watch(System.String)">
             <summary>
-            Creates a <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> for the specified <paramref name="filter"/>.
+            Creates an <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> for the specified <paramref name="filter"/>.
             </summary>
-            <param name="filter">Filter string used to determine what files or folders to monitor. Example: **/*.cs, *.*, subFolder/**/*.cshtml.</param>
-            <returns>An <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> that is notified when a file matching <paramref name="filter"/> is added, modified or deleted.</returns>
+            <param name="filter">A filter string used to determine what files or folders to monitor. Examples: **/*.cs, *.*, subFolder/**/*.cshtml.</param>
+            <returns>An <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> that is notified when a file matching <paramref name="filter"/> is added, modified, or deleted.</returns>
         </member>
         <member name="T:Microsoft.Extensions.FileProviders.NotFoundDirectoryContents">
             <summary>

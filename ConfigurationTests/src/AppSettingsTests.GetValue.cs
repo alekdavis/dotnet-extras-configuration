@@ -9,7 +9,7 @@ public partial class AppSettingsTests
     [Theory]
     [InlineData("{}", "a", null)]
     [InlineData("{\"b\":\"a\"}", "a", null)]
-    [InlineData("{\"a\":null}", "a", "")]
+    [InlineData("{\"a\":null}", "a", null)]
     [InlineData("{\"a\":\"\"}", "a", "")]
     [InlineData("{\"a\":\"b\"}", "a", "b")]
     [InlineData("{\"a\":100}", "a", "100")]
