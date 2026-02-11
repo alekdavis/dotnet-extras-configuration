@@ -80,7 +80,35 @@ Here is an example of the JSON configuration that demonstrates the use of <em>$r
   }"
 }</code></pre></div></div><p>
 No special code is needed to support <em>$ref</em> redirection; it is handled automatically by the <em>DotNetExtras.Configuration</em> library when retrieving configuration values.                
-              </p><p>             
+              </p><p>
+The `$ref` redirection also supports template substitutions using placeholders in the format `{key}`. This allows you to compose configuration values by combining literal text with values from other configuration keys.
+</p><p>
+Placeholders are replaced with their corresponding configuration values when the setting is retrieved. You can use multiple placeholders in a single template and reference nested configuration keys using the colon (`:`) notation. 
+</p><p>
+Configuration settings that use template substitutions apply only to string data types, but the template placeholders may also reference numbers and boolean values.
+</p><p>
+To include literal braces in the template, use double braces: `{{` for `{` and `}}` for `}`.
+</p><p>
+Here is an example of the JSON configuration that demonstrates template substitutions:
+</p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">Example of JSON configuration with template substitution</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-json">{
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "company.onmicrosoft.com",
+    "TenantId": "12398def-e301-5432-10234-3aa74f2e244c",
+    "ClientId": "def0b18c-611a-bcd5-f10d-44dc5f4ee5a"
+  },
+  "ServiceA": {
+    "$ref": {
+      "TokenUrl": "https://login.microsoftonline.com/{AzureAd:TenantId}/oauth2/v2.0/token",
+      "Scope": "api://{AzureId:ClientId}/.default"
+    }
+    "BaseUrl": "https://api.company.com/v1"
+  },
+}</code></pre></div></div><p>
+In this example, the `ServiceA:TokenUrl` and `ServiceA:Scope` configuration values are constructed using the templates that reference the `AzureAd:TenantId` and `AzureAd:ClientId` keys. When retrieved, these values will be fully resolved to `https://login.microsoftonline.com/12398def-e301-5432-10234-3aa74f2e244c/oauth2/v2.0/token` and `api://def0b18c-611a-bcd5-f10d-44dc5f4ee5a/.default`, respectively. 
+</p><p>
+As with simple `$ref` redirection, no special code is needed to support template substitutions; it is handled automatically by the `DotNetExtras.Configuration` library when retrieving configuration values.              
+</p><p>             
                 For the complete example and other samples covering additional scenarios, see the source code (and read the comments) of the 
                 <a href="https://github.com/alekdavis/dotnet-extras-configuration/tree/main/ConfigurationTests" target="_blank" rel="noopener noreferrer">unit test project</a>.
               </p></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Other Resources</h4><div><a href="https://www.nuget.org/packages/DotNetExtras.Configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration NuGet package</a></div><div><a href="https://github.com/alekdavis/dotnet-extras-configuration" target="_blank" rel="noopener noreferrer">DotNetExtras.Configuration project repository</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Overview</a><ul class="menu"><li><a class="quickLink">Implementation</a></li><li><a class="quickLink">Example</a></li></ul></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div><footer id="PageFooter" class="footer border-top py-3 fixedFooter"><div class="columns"><div id="FooterContent" class="column"><p>Copyright © 2026 Alek Davis</p><div class="feedbackLink">Send comments on this topic to

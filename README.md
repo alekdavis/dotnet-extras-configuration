@@ -6,6 +6,8 @@ Use the `DotNetExtras.Configuration` library to:
 
 - Load configuration from JSON files, JSON strings, or `Dictionary` objects (useful for mocking application setting in unit tests).
 - Retrieve application settings and assign them to strongly-typed variables including primitive types (`string`, `int`, `enum`, `boolean`), arrays, collections, lists, hash sets, and dictionaries.
+- Reference configuration values from other configuration keys using the `$ref` key for value redirection.
+- Build configuration values using templates with placeholders that are replaced by values from other configuration keys.
 - Set configuration once during application startup and access it from anywhere in the code.
 - Reload configuration settings.
 
@@ -70,6 +72,7 @@ Dictionary<string, int>?    g2 = AppSettings.GetDictionaryValue<string, int>("Ke
 // Get a strongly typed enum value from the configuration.
 MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
 ```
+### Key redirection
 The library supports configuration value redirection using the `$ref` key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.
 
 When a configuration key's value is `null` or does not exist, the library checks for a `$ref` key at the same hierarchical level. The `$ref` key contains the name of the original key as a property, with its value pointing to the target key from which to retrieve the actual value.
@@ -93,6 +96,40 @@ Here is an example of the JSON configuration that demonstrates the use of `$ref`
 ```
 
 No special code is needed to support `$ref` redirection; it is handled automatically by the `DotNetExtras.Configuration` library when retrieving configuration values.
+
+### Template substitutions
+
+The `$ref` redirection also supports template substitutions using placeholders in the format `{key}`. This allows you to compose configuration values by combining literal text with values from other configuration keys.
+
+Placeholders are replaced with their corresponding configuration values when the setting is retrieved. You can use multiple placeholders in a single template and reference nested configuration keys using the colon (`:`) notation. 
+
+Configuration settings that use template substitutions apply only to string data types, but the template placeholders may also reference numbers and boolean values.
+
+To include literal braces in the template, use double braces: `{{` for `{` and `}}` for `}`.
+
+Here is an example of the JSON configuration that demonstrates template substitutions:
+
+```json
+{
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "company.onmicrosoft.com",
+    "TenantId": "12398def-e301-5432-10234-3aa74f2e244c",
+    "ClientId": "def0b18c-611a-bcd5-f10d-44dc5f4ee5a"
+  },
+  "ServiceA": {
+    "$ref": {
+      "TokenUrl": "https://login.microsoftonline.com/{AzureAd:TenantId}/oauth2/v2.0/token",
+      "Scope": "api://{AzureId:ClientId}/.default"
+    }
+    "BaseUrl": "https://api.company.com/v1"
+  },
+}
+
+```
+In this example, the `ServiceA:TokenUrl` and `ServiceA:Scope` configuration values are constructed using the templates that reference the `AzureAd:TenantId` and `AzureAd:ClientId` keys. When retrieved, these values will be fully resolved to `https://login.microsoftonline.com/12398def-e301-5432-10234-3aa74f2e244c/oauth2/v2.0/token` and `api://def0b18c-611a-bcd5-f10d-44dc5f4ee5a/.default`, respectively.
+
+As with simple `$ref` redirection, no special code is needed to support template substitutions; it is handled automatically by the `DotNetExtras.Configuration` library when retrieving configuration values.
 
 ## Documentation
 

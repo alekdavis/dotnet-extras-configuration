@@ -97,6 +97,49 @@
             Configuration setting holding a dictionary.
             </returns>
     </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.ResolveReference(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Resolves a reference which can be either a simple key path or a template with placeholders.
+            If the reference contains {...} placeholders, they are resolved.
+            Otherwise, the reference is treated as a simple key path.
+            </summary>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="reference">
+            Reference string that can be a key path or a template.
+            </param>
+      <returns>
+            Resolved string value, or null if the reference points to a missing/null value with no literals.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.ContainsPlaceholder(System.String)">
+      <summary>
+            Checks if a string contains valid (properly closed) {...} placeholders.
+            </summary>
+      <param name="text">
+            Text to check.
+            </param>
+      <returns>
+            True if the text contains at least one valid placeholder; otherwise, false.
+            </returns>
+    </member>
+    <member name="M:DotNetExtras.Configuration.AppSettings.ResolvePlaceholders(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+      <summary>
+            Resolves placeholders in the format {key} with their corresponding configuration values.
+            Use {{ to escape { and }} to escape } in literal text.
+            </summary>
+      <param name="configuration">
+            Application configuration settings.
+            </param>
+      <param name="template">
+            Template string containing placeholders.
+            </param>
+      <returns>
+            String with placeholders replaced by their configuration values, or null if all placeholders
+            are missing/null and there are no literal characters.
+            </returns>
+    </member>
     <member name="M:DotNetExtras.Configuration.AppSettings.GetRefKey(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
       <summary>
             Gets the redirection key from the $ref configuration setting at the same level as the specified key.

@@ -40,7 +40,15 @@ public static partial class AppSettings
 
             if (refKey != null)
             {
-                value = configuration.GetValue<T?>(refKey);
+                if (typeof(T) == typeof(string))
+                {
+                    string? resolvedValue = ResolveReference(configuration, refKey);
+                    value = resolvedValue != null ? (T)(object)resolvedValue : default;
+                }
+                else
+                {
+                    value = configuration.GetValue<T?>(refKey);
+                }
             }
         }
 
@@ -191,6 +199,230 @@ public static partial class AppSettings
         }
 
         return value;
+    }
+
+    /// <summary>
+    /// Resolves a reference which can be either a simple key path or a template with placeholders.
+    /// If the reference contains {...} placeholders, they are resolved.
+    /// Otherwise, the reference is treated as a simple key path.
+    /// </summary>
+    /// <param name="configuration">
+    /// Application configuration settings.
+    /// </param>
+    /// <param name="reference">
+    /// Reference string that can be a key path or a template.
+    /// </param>
+    /// <returns>
+    /// Resolved string value, or null if the reference points to a missing/null value with no literals.
+    /// </returns>
+    private static string? ResolveReference
+    (
+        IConfiguration configuration,
+        string reference
+    )
+    {
+        if (string.IsNullOrEmpty(reference))
+        {
+            return reference;
+        }
+
+        // Check if the reference contains valid placeholders
+        if (ContainsPlaceholder(reference))
+        {
+            return ResolvePlaceholders(configuration, reference);
+        }
+
+        // Treat as a simple key path
+        string? value = configuration[reference];
+
+        return value;
+    }
+
+    /// <summary>
+    /// Checks if a string contains valid (properly closed) {...} placeholders.
+    /// </summary>
+    /// <param name="text">
+    /// Text to check.
+    /// </param>
+    /// <returns>
+    /// True if the text contains at least one valid placeholder; otherwise, false.
+    /// </returns>
+    private static bool ContainsPlaceholder
+    (
+        string text
+    )
+    {
+        int i = 0;
+
+        while (i < text.Length)
+        {
+            if (text[i] == '{')
+            {
+                // Check for escaped {{ 
+                if (i + 1 < text.Length && text[i + 1] == '{')
+                {
+                    i += 2;
+                    continue;
+                }
+
+                // Found unescaped opening brace, check if it has a closing brace
+                int j = i + 1;
+                while (j < text.Length)
+                {
+                    if (text[j] == '}')
+                    {
+                        // Check for escaped }}
+                        if (j + 1 < text.Length && text[j + 1] == '}')
+                        {
+                            j += 2;
+                            continue;
+                        }
+
+                        // Found a valid, properly closed placeholder
+                        return true;
+                    }
+
+                    if (text[j] == '{')
+                    {
+                        // Found another opening brace, just skip it
+                        j++;
+                        continue;
+                    }
+
+                    j++;
+                }
+
+                // No closing brace found for this opening brace
+                // Treat entire string as literal key path
+                return false;
+            }
+
+            i++;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Resolves placeholders in the format {key} with their corresponding configuration values.
+    /// Use {{ to escape { and }} to escape } in literal text.
+    /// </summary>
+    /// <param name="configuration">
+    /// Application configuration settings.
+    /// </param>
+    /// <param name="template">
+    /// Template string containing placeholders.
+    /// </param>
+    /// <returns>
+    /// String with placeholders replaced by their configuration values, or null if all placeholders
+    /// are missing/null and there are no literal characters.
+    /// </returns>
+    private static string? ResolvePlaceholders
+    (
+        IConfiguration configuration,
+        string template
+    )
+    {
+        if (string.IsNullOrEmpty(template))
+        {
+            return template;
+        }
+
+        System.Text.StringBuilder result = new();
+        bool hasLiteralContent = false;
+        bool hasAnyContent = false;
+        int i = 0;
+
+        while (i < template.Length)
+        {
+            if (template[i] == '{')
+            {
+                // Check for escaped {{
+                if (i + 1 < template.Length && template[i + 1] == '{')
+                {
+                    result.Append('{');
+                    hasLiteralContent = true;
+                    hasAnyContent = true;
+                    i += 2;
+                    continue;
+                }
+
+                // Start of placeholder
+                i++; // Skip {
+                System.Text.StringBuilder keyBuilder = new();
+                bool foundClosing = false;
+
+                while (i < template.Length)
+                {
+                    if (template[i] == '}')
+                    {
+                        // Check for escaped }} within placeholder
+                        if (i + 1 < template.Length && template[i + 1] == '}')
+                        {
+                            keyBuilder.Append('}');
+                            i += 2;
+                            continue;
+                        }
+
+                        foundClosing = true;
+                        i++; // Skip }
+                        break;
+                    }
+
+                    if (template[i] == '{')
+                    {
+                        // Found another opening brace within placeholder, treat as literal
+                        keyBuilder.Append(template[i]);
+                        i++;
+                        continue;
+                    }
+
+                    keyBuilder.Append(template[i]);
+                    i++;
+                }
+
+                if (foundClosing)
+                {
+                    string configKey = keyBuilder.ToString();
+                    string? configValue = configuration[configKey];
+
+                    if (configValue != null)
+                    {
+                        result.Append(configValue);
+                        hasAnyContent = true;
+                    }
+                }
+                else
+                {
+                    // Malformed placeholder, treat as literal
+                    result.Append("{").Append(keyBuilder.ToString());
+                    hasLiteralContent = true;
+                    hasAnyContent = true;
+                }
+
+                continue;
+            }
+
+            if (template[i] == '}' && i + 1 < template.Length && template[i + 1] == '}')
+            {
+                // Escaped }} outside placeholder
+                result.Append('}');
+                hasLiteralContent = true;
+                hasAnyContent = true;
+                i += 2;
+                continue;
+            }
+
+            result.Append(template[i]);
+            hasLiteralContent = true;
+            hasAnyContent = true;
+            i++;
+        }
+
+        // If there's no content at all, or only null placeholders without literals, return null
+        return !hasAnyContent || (!hasLiteralContent && result.Length == 0) 
+            ? null 
+            : result.ToString();
     }
 
     /// <summary>

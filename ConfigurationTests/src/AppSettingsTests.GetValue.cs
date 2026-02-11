@@ -23,7 +23,37 @@ public partial class AppSettingsTests
     // Redirection tests - nested level
     [InlineData("{\"s\":{\"a\":null,\"$ref\":{\"a\":\"b\"}},\"b\":\"nested\"}", "s:a", "nested")]
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":\"deep\"}", "s:x:a", "deep")]
-    // Redirection tests - no double redirection
+    // Template substitution tests - single placeholder
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Hello, {name}!\"},\"name\":\"World\"}", "a", "Hello, World!")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Value: {num}\"},\"num\":-42}", "a", "Value: -42")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Amount: ${amount}\"},\"amount\":50}", "a", "Amount: $50")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Enabled: {flag}\"},\"flag\":true}", "a", "Enabled: True")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Enabled: {flag}\"},\"flag\":false}", "a", "Enabled: False")]
+    // Template substitution tests - multiple placeholders
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Hello, {firstName} {lastName}!\"},\"firstName\":\"Joe\",\"lastName\":\"Doe\"}", "a", "Hello, Joe Doe!")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{greeting}, {name}{punctuation}\"},\"greeting\":\"Hi\",\"name\":\"Alice\",\"punctuation\":\"!\"}", "a", "Hi, Alice!")]
+    // Template substitution tests - nested keys
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Path: {config:path}\"},\"config\":{\"path\":\"C:\\\\Temp\"}}", "a", "Path: C:\\Temp")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Server: {db:host}:{db:port}\"},\"db\":{\"host\":\"localhost\",\"port\":5432}}", "a", "Server: localhost:5432")]
+    // Template substitution tests - missing placeholder
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Hello, {missing}!\"}}", "a", "Hello, !")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{x} and {y}\"},\"x\":\"A\"}", "a", "A and ")]
+    // Template substitution tests - escaped characters
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Path: C:\\\\Users\\\\{user}\"},\"user\":\"John\"}", "a", "Path: C:\\Users\\John")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Literal {{results in null}}\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Use {{{{ and }}}}\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Object: {{key}}:{value}\"},\"value\":\"data\"}", "a", "Object: {key}:data")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Object: {{key}}:{value }\"},\"value \":\"data\"}", "a", "Object: {key}:data")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"Object: {{key}}:{ value}\"},\" value\":\"data\"}", "a", "Object: {key}:data")]
+    // Template substitution tests - edge cases
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{}\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{unclosed\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"unopened}\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"No placeholders here\"}}", "a", null)]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"\"}}", "a", "")]
+    // Template substitution tests - complex scenarios
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{{API}}: {protocol}://{host}:{port}/{path}\"},\"protocol\":\"https\",\"host\":\"api.example.com\",\"port\":443,\"path\":\"v1/users\"}", "a", "{API}: https://api.example.com:443/v1/users")]
+    [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{start}{middle}{end}\"},\"start\":\"A\",\"middle\":\"B\",\"end\":\"C\"}", "a", "ABC")]
     public void AppSettings_GetValue_String
     (
         string json,
