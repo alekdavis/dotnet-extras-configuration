@@ -127,7 +127,7 @@ Here is an example of the JSON configuration that demonstrates template substitu
 }
 
 ```
-In this example, the `ServiceA:TokenUrl` and `ServiceA:Scope` configuration values are constructed using the templates that reference the `AzureAd:TenantId` and `AzureAd:ClientId` keys. When retrieved, these values will be fully resolved to `https://login.microsoftonline.com/12398def-e301-5432-10234-3aa74f2e244c/oauth2/v2.0/token` and `api://def0b18c-611a-bcd5-f10d-44dc5f4ee5a/.default`, respectively.
+In this example, the `ServiceA:TokenUrl` and `ServiceA:Scope` configuration values are constructed using templates that reference the `AzureAd:TenantId` and `AzureAd:ClientId` keys. When retrieved, these values will be fully resolved to `https://login.microsoftonline.com/12398def-e301-5432-10234-3aa74f2e244c/oauth2/v2.0/token` and `api://def0b18c-611a-bcd5-f10d-44dc5f4ee5a/.default`, respectively.
 
 As with simple `$ref` redirection, no special code is needed to support template substitutions; it is handled automatically by the `DotNetExtras.Configuration` library when retrieving configuration values.
 
