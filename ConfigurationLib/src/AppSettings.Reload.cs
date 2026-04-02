@@ -17,7 +17,7 @@ public static partial class AppSettings
     /// </param>
     public static void Reload
     (
-        ref IConfiguration configuration
+        this IConfiguration configuration
     )
     {
         ((IConfigurationRoot)configuration).Reload();

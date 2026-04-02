@@ -23,6 +23,54 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding a single value.
     /// </returns>
+    public static T? GetScalarValue<T>
+    (
+        this IConfiguration configuration,
+        string key
+    )
+    {
+        T? value = configuration.GetValue<T?>(key);
+
+        // For some reason, GetValue returns an empty string if the value is null,
+        // so for strings, we need special handling.
+        if ((typeof(T) == typeof(string) && string.IsNullOrEmpty(value?.ToString())) || 
+            Equals(value, default(T)))
+        {
+            string? refKey = GetRefKey(configuration, key);
+
+            if (refKey != null)
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    string? resolvedValue = ResolveReference(configuration, refKey);
+                    value = resolvedValue != null ? (T)(object)resolvedValue : default;
+                }
+                else
+                {
+                    value = configuration.GetValue<T?>(refKey);
+                }
+            }
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// Returns a primitive application setting value for the given key.
+    /// </summary>
+    /// <param name="configuration">
+    /// Application configuration settings.
+    /// </param>
+    /// <typeparam name="T">
+    /// Data type of the value.
+    /// </typeparam>
+    /// <param name="key">
+    /// Name of the configuration setting key.
+    /// </param>
+    /// <returns>
+    /// Configuration setting holding a single value.
+    /// </returns>
+    [Obsolete("Use GetScalarValue<T> instead.")]
     public static T? GetValue<T>
     (
         IConfiguration configuration,
@@ -72,7 +120,7 @@ public static partial class AppSettings
     /// </returns>
     public static T[]? GetArrayValue<T>
     (
-        IConfiguration configuration,
+        this IConfiguration configuration,
         string key
     )
     {
@@ -110,7 +158,7 @@ public static partial class AppSettings
     /// </returns>
     public static List<T>? GetListValue<T>
     (
-        IConfiguration configuration,
+        this IConfiguration configuration,
         string key
     )
     {
@@ -148,7 +196,7 @@ public static partial class AppSettings
     /// </returns>
     public static HashSet<T>? GetHashSetValue<T>
     (
-        IConfiguration configuration,
+        this IConfiguration configuration,
         string key
     )
     {
@@ -179,7 +227,7 @@ public static partial class AppSettings
     /// </returns>
     public static Dictionary<TKey,TValue?>? GetDictionaryValue<TKey,TValue>
     (
-        IConfiguration configuration,
+        this IConfiguration configuration,
         string key
     )
     where TKey : notnull
@@ -217,7 +265,7 @@ public static partial class AppSettings
     /// </returns>
     private static string? ResolveReference
     (
-        IConfiguration configuration,
+        this IConfiguration configuration,
         string reference
     )
     {

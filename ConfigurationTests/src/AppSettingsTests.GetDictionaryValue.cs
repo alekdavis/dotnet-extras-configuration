@@ -27,7 +27,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        Dictionary<string, string?>? actual = AppSettings.GetDictionaryValue<string, string?>(config, key);
+        Dictionary<string, string?>? actual = config.GetDictionaryValue<string, string?>(key);
 
         if (isNull)
         {
@@ -75,7 +75,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        Dictionary<string, int?>? actual = AppSettings.GetDictionaryValue<string, int?>(config, key);
+        Dictionary<string, int?>? actual = config.GetDictionaryValue<string, int?>(key);
 
         if (isNull)
         {

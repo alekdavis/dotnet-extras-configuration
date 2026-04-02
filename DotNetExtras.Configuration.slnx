@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/.NUGET/">
+    <File Path="publish.ps1" />
+  </Folder>
+  <Folder Name="/.README/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="ConfigurationHelp/ConfigurationHelp.shfbproj" Type="7cf6df6d-3b04-46f8-a40b-537d21bca0b4">
+    <BuildDependency Project="ConfigurationLib/ConfigurationLib.csproj" />
+    <Build Project="false" />
+  </Project>
+  <Project Path="ConfigurationLib/ConfigurationLib.csproj" />
+  <Project Path="ConfigurationTests/ConfigurationTests.csproj" />
+</Solution>

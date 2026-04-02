@@ -31,7 +31,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        HashSet<string>? actual = AppSettings.GetHashSetValue<string>(config, key);
+        HashSet<string>? actual = config.GetHashSetValue<string>(key);
 
         if (isNull)
         {
@@ -77,7 +77,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        HashSet<int>? actual = AppSettings.GetHashSetValue<int>(config, key);
+        HashSet<int>? actual = config.GetHashSetValue<int>(key);
 
         if (isNull)
         {

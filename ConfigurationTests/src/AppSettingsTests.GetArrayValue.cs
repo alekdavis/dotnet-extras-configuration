@@ -29,7 +29,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        string[]? actual = AppSettings.GetArrayValue<string>(config, key);
+        string[]? actual = config.GetArrayValue<string>(key);
 
         if (isNull)
         {
@@ -75,7 +75,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        int[]? actual = AppSettings.GetArrayValue<int>(config, key);
+        int[]? actual = config.GetArrayValue<int>(key);
 
         if (isNull)
         {

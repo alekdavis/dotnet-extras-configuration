@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>DotNetExtras.Configuration</AssemblyName>
     <RootNamespace>DotNetExtras.Configuration</RootNamespace>
-    <Version>1.0.7</Version>
+    <Version>1.1.0</Version>
     <Title>$(AssemblyName)</Title>
     <Authors>Alek Davis</Authors>
     <Description>A .NET Core library handling application settings.</Description>

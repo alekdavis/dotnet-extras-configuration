@@ -49,28 +49,28 @@ config = AppSettings.Global.Get();
 AppSettings.Reload(config);
 
 // Get a strongly-typed primitive value from the configuration.
-string? a = AppSettings.GetValue<string>("KeyX:SubKeyA");
-int?    b = AppSettings.GetValue<int>("KeyX:SubKeyB");
-bool?   c = AppSettings.GetValue<bool>("KeyX:SubKeyC");
+string? a = config.GetScalarValue<string>("KeyX:SubKeyA");
+int?    b = config.GetScalarValue<int>("KeyX:SubKeyB");
+bool?   c = config.GetScalarValue<bool>("KeyX:SubKeyC");
 
 // Get a strongly typed array value from the configuration.
-string[]? d1 = AppSettings.GetArrayValue<string[]>("KeyX:SubKeyD1");
-int[]?    d2 = AppSettings.GetArrayValue<int[]>("KeyX:SubKeyD2");
+string[]? d1 = config.GetArrayValue<string[]>("KeyX:SubKeyD1");
+int[]?    d2 = config.GetArrayValue<int[]>("KeyX:SubKeyD2");
 
 // Get a strongly typed list value from the configuration.
-List<string>? e1 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE1");
-List<int>?    e2 = AppSettings.GetListValue<List<string>>("KeyX:SubKeyE2");
+List<string>? e1 = config.GetListValue<List<string>>("KeyX:SubKeyE1");
+List<int>?    e2 = config.GetListValue<List<string>>("KeyX:SubKeyE2");
 
 // Get a strongly typed hash set value from the configuration.
-HashSet<string>? f1 = AppSettings.GetHashSetValue<string>("KeyX:SubKeyF1");
-HashSet<int>?    f2 = AppSettings.GetHashSetValue<string>("KeyX:SubKeyF2");
+HashSet<string>? f1 = config.GetHashSetValue<string>("KeyX:SubKeyF1");
+HashSet<int>?    f2 = config.GetHashSetValue<string>("KeyX:SubKeyF2");
 
 // Get a strongly typed dictionary value from the configuration.
-Dictionary<string, string>? g1 = AppSettings.GetDictionaryValue<string, string>("KeyX:SubKeyG1");
-Dictionary<string, int>?    g2 = AppSettings.GetDictionaryValue<string, int>("KeyX:SubKeyG2");
+Dictionary<string, string>? g1 = config.GetDictionaryValue<string, string>("KeyX:SubKeyG1");
+Dictionary<string, int>?    g2 = config.GetDictionaryValue<string, int>("KeyX:SubKeyG2");
 
 // Get a strongly typed enum value from the configuration.
-MyEnum? h = AppSettings.GetEnumValue<MyEnum>("KeyX:SubKeyH");
+MyEnum? h = config.GetEnumValue<MyEnum>("KeyX:SubKeyH");
 ```
 ### Key redirection
 The library supports configuration value redirection using the `$ref` key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.

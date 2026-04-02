@@ -63,7 +63,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        Assert.Equal(value, AppSettings.GetValue<string?>(config, key), StringComparer.OrdinalIgnoreCase);
+        Assert.Equal(value, config.GetScalarValue<string?>(key), StringComparer.OrdinalIgnoreCase);
     }
 
     [Theory]
@@ -93,7 +93,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        Assert.Equal(value, AppSettings.GetValue<int?>(config, key));
+        Assert.Equal(value, config.GetScalarValue<int?>(key));
     }
 
     [Theory]
@@ -123,7 +123,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        Assert.Equal(value, AppSettings.GetValue<bool?>(config, key));
+        Assert.Equal(value, config.GetScalarValue<bool?>(key));
     }
 
     [Theory]
@@ -149,6 +149,6 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        Assert.Equal(value, AppSettings.GetValue<DayOfWeek?>(config, key));
+        Assert.Equal(value, config.GetScalarValue<DayOfWeek?>(key));
     }
 }

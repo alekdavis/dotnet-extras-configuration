@@ -31,7 +31,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        List<string>? actual = AppSettings.GetListValue<string>(config, key);
+        List<string>? actual = config.GetListValue<string>(key);
 
         if (isNull)
         {
@@ -77,7 +77,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        List<int>? actual = AppSettings.GetListValue<int>(config, key);
+        List<int>? actual = config.GetListValue<int>(key);
 
         if (isNull)
         {
