@@ -5,7 +5,7 @@
   <Folder Name="/.README/">
     <File Path="README.md" />
   </Folder>
-  <Project Path="ConfigurationHelp/ConfigurationHelp.shfbproj" Type="7cf6df6d-3b04-46f8-a40b-537d21bca0b4">
+  <Project Path="ConfigurationHelp/ConfigurationHelp.shfbproj" Type="7cf6df6d-3b04-46f8-a40b-537d21bca0b4" Id="e95defbc-bf1b-4e71-8a7f-4b8b387d582d">
     <BuildDependency Project="ConfigurationLib/ConfigurationLib.csproj" />
     <Build Project="false" />
   </Project>

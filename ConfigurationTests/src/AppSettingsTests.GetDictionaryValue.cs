@@ -97,4 +97,58 @@ public partial class AppSettingsTests
             return new KeyValuePair<string, int?>(parts[0], int.Parse(parts[1]));
         })));
     }
+
+    [Theory]
+    // Case-sensitive (default): keys "Name" and "name" are distinct - lookup by original case only
+    [InlineData("{\"a\":{\"Name\":\"John\",\"City\":\"NYC\"}}", "a", false, null, "Name", "John")]
+    [InlineData("{\"a\":{\"Name\":\"John\",\"City\":\"NYC\"}}", "a", false, null, "name", null)]
+    // Case-insensitive: lookup succeeds regardless of key casing
+    [InlineData("{\"a\":{\"Name\":\"John\",\"City\":\"NYC\"}}", "a", false, "OrdinalIgnoreCase", "name", "John")]
+    [InlineData("{\"a\":{\"Name\":\"John\",\"City\":\"NYC\"}}", "a", false, "OrdinalIgnoreCase", "NAME", "John")]
+    [InlineData("{\"a\":{\"Name\":\"John\",\"City\":\"NYC\"}}", "a", false, "OrdinalIgnoreCase", "CITY", "NYC")]
+    // Ordinal (case-sensitive): lookup fails for wrong case
+    [InlineData("{\"a\":{\"Name\":\"John\"}}", "a", false, "Ordinal", "name", null)]
+    [InlineData("{\"a\":{\"Name\":\"John\"}}", "a", false, "Ordinal", "Name", "John")]
+    // Null result
+    [InlineData("{}", "a", true, null, "key", null)]
+    public void AppSettings_GetDictionaryValue_String_Comparer
+    (
+        string json,
+        string key,
+        bool isNull,
+        string? comparerName,
+        string lookupKey,
+        string? expectedValue
+    )
+    {
+        IEqualityComparer<string>? comparer = comparerName switch
+        {
+            "OrdinalIgnoreCase" => StringComparer.OrdinalIgnoreCase,
+            "Ordinal" => StringComparer.Ordinal,
+            _ => null
+        };
+
+        IConfiguration config = AppSettings.Load.FromJsonString(json);
+        Dictionary<string, string?>? actual = config.GetDictionaryValue<string, string?>(key, comparer);
+
+        if (isNull)
+        {
+            Assert.Null(actual);
+            return;
+        }
+
+        Assert.NotNull(actual);
+
+        bool found = actual.TryGetValue(lookupKey, out string? value);
+
+        if (expectedValue == null)
+        {
+            Assert.False(found);
+        }
+        else
+        {
+            Assert.True(found);
+            Assert.Equal(expectedValue, value);
+        }
+    }
 }

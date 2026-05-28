@@ -191,20 +191,26 @@ public static partial class AppSettings
     /// <param name="key">
     /// Name of the configuration setting key.
     /// </param>
+    /// <param name="comparer">
+    /// Optional equality comparer for the hash set elements.
+    /// For example, use <see cref="StringComparer.OrdinalIgnoreCase"/> for case-insensitive string elements.
+    /// If null, the default comparer for <typeparamref name="T"/> is used.
+    /// </param>
     /// <returns>
     /// Configuration setting holding a hash set.
     /// </returns>
     public static HashSet<T>? GetHashSetValue<T>
     (
         this IConfiguration configuration,
-        string key
+        string key,
+        IEqualityComparer<T>? comparer = null
     )
     {
         List<T>? list = GetListValue<T>(configuration, key);
         
         return list == null 
             ? null
-            : [.. list.Distinct()];
+            : [.. list.Distinct(comparer)];
     }
 
     /// <summary>
@@ -222,13 +228,19 @@ public static partial class AppSettings
     /// <param name="key">
     /// Name of the configuration setting key.
     /// </param>
+    /// <param name="comparer">
+    /// Optional equality comparer for the dictionary keys.
+    /// For example, use <see cref="StringComparer.OrdinalIgnoreCase"/> for case-insensitive string keys.
+    /// If null, the default comparer for <typeparamref name="TKey"/> is used.
+    /// </param>
     /// <returns>
     /// Configuration setting holding a dictionary.
     /// </returns>
     public static Dictionary<TKey,TValue?>? GetDictionaryValue<TKey,TValue>
     (
         this IConfiguration configuration,
-        string key
+        string key,
+        IEqualityComparer<TKey>? comparer = null
     )
     where TKey : notnull
     {
@@ -244,6 +256,11 @@ public static partial class AppSettings
                 section = configuration.GetSection(refKey);
                 value = section?.Get<Dictionary<TKey,TValue?>>();
             }
+        }
+
+        if (value != null && comparer != null)
+        {
+            value = new Dictionary<TKey, TValue?>(value, comparer);
         }
 
         return value;
