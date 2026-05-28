@@ -46,31 +46,35 @@ AppSettings.Global.Set(config);
 config = AppSettings.Global.Get();
 
 // Reinitialize the configuration from the original provider.
-AppSettings.Reload(config);
+config.Reload();
 
 // Get a strongly-typed primitive value from the configuration.
-string? a = config.GetScalarValue<string>("KeyX:SubKeyA");
-int?    b = config.GetScalarValue<int>("KeyX:SubKeyB");
-bool?   c = config.GetScalarValue<bool>("KeyX:SubKeyC");
+string?  a = config.GetScalar<string>("KeyX:SubKeyA");
+int?     b = config.GetScalar<int>("KeyX:SubKeyB");
+bool?    c = config.GetScalar<bool>("KeyX:SubKeyC");
+MyEnum?  d = config.GetScalar<MyEnum>("KeyX:SubKeyD");
 
 // Get a strongly typed array value from the configuration.
-string[]? d1 = config.GetArrayValue<string[]>("KeyX:SubKeyD1");
-int[]?    d2 = config.GetArrayValue<int[]>("KeyX:SubKeyD2");
+string[]? e1 = config.GetArray<string>("KeyX:SubKeyE1");
+int[]?    e2 = config.GetArray<int>("KeyX:SubKeyE2");
 
 // Get a strongly typed list value from the configuration.
-List<string>? e1 = config.GetListValue<List<string>>("KeyX:SubKeyE1");
-List<int>?    e2 = config.GetListValue<List<string>>("KeyX:SubKeyE2");
+List<string>? f1 = config.GetList<string>("KeyX:SubKeyF1");
+List<int>?    f2 = config.GetList<int>("KeyX:SubKeyF2");
 
 // Get a strongly typed hash set value from the configuration.
-HashSet<string>? f1 = config.GetHashSetValue<string>("KeyX:SubKeyF1");
-HashSet<int>?    f2 = config.GetHashSetValue<string>("KeyX:SubKeyF2");
+HashSet<string>? g1 = config.GetHashSet<string>("KeyX:SubKeyG1");
+HashSet<int>?    g2 = config.GetHashSet<int>("KeyX:SubKeyG2");
+
+// Get a strongly typed hash set with a custom comparer.
+HashSet<string>? g3 = config.GetHashSet<string>("KeyX:SubKeyG3", StringComparer.OrdinalIgnoreCase);
 
 // Get a strongly typed dictionary value from the configuration.
-Dictionary<string, string>? g1 = config.GetDictionaryValue<string, string>("KeyX:SubKeyG1");
-Dictionary<string, int>?    g2 = config.GetDictionaryValue<string, int>("KeyX:SubKeyG2");
+Dictionary<string, string>? h1 = config.GetDictionary<string, string>("KeyX:SubKeyH1");
+Dictionary<string, int>?    h2 = config.GetDictionary<string, int>("KeyX:SubKeyH2");
 
-// Get a strongly typed enum value from the configuration.
-MyEnum? h = config.GetEnumValue<MyEnum>("KeyX:SubKeyH");
+// Get a strongly typed dictionary with a case-insensitive key comparer.
+Dictionary<string, string>? h3 = config.GetDictionary<string, string>("KeyX:SubKeyH3", StringComparer.OrdinalIgnoreCase);
 ```
 ### Key redirection
 The library supports configuration value redirection using the `$ref` key, which allows you to reference values from other configuration keys. This is useful for avoiding duplication and maintaining configuration consistency.

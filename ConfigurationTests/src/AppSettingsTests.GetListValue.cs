@@ -31,7 +31,9 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        List<string>? actual = config.GetListValue<string>(key);
+        #pragma warning disable CS0618
+                List<string>? actual = config.GetListValue<string>(key);
+        #pragma warning restore CS0618
 
         if (isNull)
         {
@@ -77,7 +79,9 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        List<int>? actual = config.GetListValue<int>(key);
+        #pragma warning disable CS0618
+                List<int>? actual = config.GetListValue<int>(key);
+        #pragma warning restore CS0618
 
         if (isNull)
         {

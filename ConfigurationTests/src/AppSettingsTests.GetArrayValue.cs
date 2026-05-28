@@ -29,7 +29,9 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        string[]? actual = config.GetArrayValue<string>(key);
+        #pragma warning disable CS0618
+                string[]? actual = config.GetArrayValue<string>(key);
+        #pragma warning restore CS0618
 
         if (isNull)
         {
@@ -75,7 +77,9 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        int[]? actual = config.GetArrayValue<int>(key);
+        #pragma warning disable CS0618
+                int[]? actual = config.GetArrayValue<int>(key);
+        #pragma warning restore CS0618
 
         if (isNull)
         {

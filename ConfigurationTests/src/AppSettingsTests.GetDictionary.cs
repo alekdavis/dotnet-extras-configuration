@@ -1,4 +1,4 @@
-﻿using DotNetExtras.Configuration;
+using DotNetExtras.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace ConfigurationLibTest;
@@ -18,7 +18,7 @@ public partial class AppSettingsTests
     // Redirection tests - nested level
     [InlineData("{\"s\":{\"a\":null,\"$ref\":{\"a\":\"b\"}},\"b\":{\"x\":\"y\",\"z\":\"w\"}}", "s:a", false, "x:y", "z:w")]
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":{\"deep1\":\"val1\",\"deep2\":\"val2\"}}", "s:x:a", false, "deep1:val1", "deep2:val2")]
-    public void AppSettings_GetDictionaryValue_StringString
+    public void AppSettings_GetDictionary_StringString
     (
         string json,
         string key,
@@ -27,9 +27,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                Dictionary<string, string?>? actual = config.GetDictionaryValue<string, string?>(key);
-        #pragma warning restore CS0618
+        Dictionary<string, string?>? actual = config.GetDictionary<string, string?>(key);
 
         if (isNull)
         {
@@ -45,7 +43,7 @@ public partial class AppSettingsTests
 
         Assert.NotNull(actual);
         Assert.Equal(values.Length, actual.Count);
-        Assert.All(actual, kvp => Assert.Contains(kvp, values.Select(v => 
+        Assert.All(actual, kvp => Assert.Contains(kvp, values.Select(v =>
         {
             string[] parts = v.Split(':');
             return new KeyValuePair<string, string?>(parts[0], parts[1]);
@@ -68,7 +66,7 @@ public partial class AppSettingsTests
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":{\"deep1\":-5,\"deep2\":-10}}", "s:x:a", false, "deep1:-5", "deep2:-10")]
     // Redirection tests - no double redirection
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"b\"},\"b\":null}", "a", true)]
-    public void AppSettings_GetDictionaryValue_StringInt
+    public void AppSettings_GetDictionary_StringInt
     (
         string json,
         string key,
@@ -77,9 +75,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                Dictionary<string, int?>? actual = config.GetDictionaryValue<string, int?>(key);
-        #pragma warning restore CS0618
+        Dictionary<string, int?>? actual = config.GetDictionary<string, int?>(key);
 
         if (isNull)
         {
@@ -95,7 +91,7 @@ public partial class AppSettingsTests
 
         Assert.NotNull(actual);
         Assert.Equal(values.Length, actual.Count);
-        Assert.All(actual, kvp => Assert.Contains(kvp, values.Select(v => 
+        Assert.All(actual, kvp => Assert.Contains(kvp, values.Select(v =>
         {
             string[] parts = v.Split(':');
             return new KeyValuePair<string, int?>(parts[0], int.Parse(parts[1]));
@@ -115,7 +111,7 @@ public partial class AppSettingsTests
     [InlineData("{\"a\":{\"Name\":\"John\"}}", "a", false, "Ordinal", "Name", "John")]
     // Null result
     [InlineData("{}", "a", true, null, "key", null)]
-    public void AppSettings_GetDictionaryValue_String_Comparer
+    public void AppSettings_GetDictionary_String_Comparer
     (
         string json,
         string key,
@@ -133,9 +129,7 @@ public partial class AppSettingsTests
         };
 
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                Dictionary<string, string?>? actual = config.GetDictionaryValue<string, string?>(key, comparer);
-        #pragma warning restore CS0618
+        Dictionary<string, string?>? actual = config.GetDictionary<string, string?>(key, comparer);
 
         if (isNull)
         {

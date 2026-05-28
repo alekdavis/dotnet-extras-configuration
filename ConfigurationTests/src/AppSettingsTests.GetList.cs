@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: json
+// Ignore Spelling: json
 
 using DotNetExtras.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +22,7 @@ public partial class AppSettingsTests
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":[\"deep1\",\"deep2\"]}", "s:x:a", false, "deep1", "deep2")]
     // Redirection tests - no double redirection
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"b\"},\"b\":null,\"c\":[\"final\"]}", "a", true)]
-    public void AppSettings_GetHashSetValue_String
+    public void AppSettings_GetList_String
     (
         string json,
         string key,
@@ -31,9 +31,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                HashSet<string>? actual = config.GetHashSetValue<string>(key);
-        #pragma warning restore CS0618
+        List<string>? actual = config.GetList<string>(key);
 
         if (isNull)
         {
@@ -70,7 +68,7 @@ public partial class AppSettingsTests
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":[-5,-10]}", "s:x:a", false, -5, -10)]
     // Redirection tests - no double redirection
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"b\"},\"b\":null}", "a", true)]
-    public void AppSettings_GetHashSetValue_Int
+    public void AppSettings_GetList_Int
     (
         string json,
         string key,
@@ -79,9 +77,7 @@ public partial class AppSettingsTests
     )
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                HashSet<int>? actual = config.GetHashSetValue<int>(key);
-        #pragma warning restore CS0618
+        List<int>? actual = config.GetList<int>(key);
 
         if (isNull)
         {
@@ -98,48 +94,5 @@ public partial class AppSettingsTests
         Assert.NotNull(actual);
         Assert.Equal(values.Length, actual.Count);
         Assert.All(actual, value => Assert.Contains(value, values));
-    }
-
-    [Theory]
-    // Case-sensitive (default): "Apple" and "apple" are distinct
-    [InlineData("{\"a\":[\"Apple\",\"apple\",\"APPLE\"]}", "a", false, null, 3, "Apple", "apple", "APPLE")]
-    // Case-insensitive: duplicates are collapsed
-    [InlineData("{\"a\":[\"Apple\",\"apple\",\"APPLE\"]}", "a", false, "OrdinalIgnoreCase", 1, "apple")]
-    [InlineData("{\"a\":[\"Apple\",\"Banana\",\"apple\",\"banana\"]}", "a", false, "OrdinalIgnoreCase", 2, "apple", "banana")]
-    // Case-sensitive explicitly: all kept
-    [InlineData("{\"a\":[\"Apple\",\"Banana\",\"apple\",\"banana\"]}", "a", false, "Ordinal", 4, "Apple", "Banana", "apple", "banana")]
-    // Null result
-    [InlineData("{}", "a", true, null, 0)]
-    public void AppSettings_GetHashSetValue_String_Comparer
-    (
-        string json,
-        string key,
-        bool isNull,
-        string? comparerName,
-        int expectedCount,
-        params string[] expectedSample
-    )
-    {
-        IEqualityComparer<string>? comparer = comparerName switch
-        {
-            "OrdinalIgnoreCase" => StringComparer.OrdinalIgnoreCase,
-            "Ordinal" => StringComparer.Ordinal,
-            _ => null
-        };
-
-        IConfiguration config = AppSettings.Load.FromJsonString(json);
-        #pragma warning disable CS0618
-                HashSet<string>? actual = config.GetHashSetValue<string>(key, comparer);
-        #pragma warning restore CS0618
-
-        if (isNull)
-        {
-            Assert.Null(actual);
-            return;
-        }
-
-        Assert.NotNull(actual);
-        Assert.Equal(expectedCount, actual.Count);
-        Assert.All(expectedSample, s => Assert.Contains(s, actual, comparer ?? StringComparer.Ordinal));
     }
 }

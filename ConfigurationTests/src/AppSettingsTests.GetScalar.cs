@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: json
+// Ignore Spelling: json
 
 using DotNetExtras.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +54,7 @@ public partial class AppSettingsTests
     // Template substitution tests - complex scenarios
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{{API}}: {protocol}://{host}:{port}/{path}\"},\"protocol\":\"https\",\"host\":\"api.example.com\",\"port\":443,\"path\":\"v1/users\"}", "a", "{API}: https://api.example.com:443/v1/users")]
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"{start}{middle}{end}\"},\"start\":\"A\",\"middle\":\"B\",\"end\":\"C\"}", "a", "ABC")]
-    public void AppSettings_GetValue_String
+    public void AppSettings_GetScalar_String
     (
         string json,
         string key,
@@ -63,9 +63,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        #pragma warning disable CS0618
-                Assert.Equal(value, config.GetScalarValue<string?>(key), StringComparer.OrdinalIgnoreCase);
-        #pragma warning restore CS0618
+        Assert.Equal(value, config.GetScalar<string?>(key), StringComparer.OrdinalIgnoreCase);
     }
 
     [Theory]
@@ -86,7 +84,7 @@ public partial class AppSettingsTests
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":-5}", "s:x:a", -5)]
     // Redirection tests - no double redirection
     [InlineData("{\"a\":null,\"$ref\":{\"a\":\"b\"},\"b\":null}", "a", null)]
-    public void AppSettings_GetValue_Int
+    public void AppSettings_GetScalar_Int
     (
         string json,
         string key,
@@ -95,9 +93,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        #pragma warning disable CS0618
-                Assert.Equal(value, config.GetScalarValue<int?>(key));
-        #pragma warning restore CS0618
+        Assert.Equal(value, config.GetScalar<int?>(key));
     }
 
     [Theory]
@@ -118,7 +114,7 @@ public partial class AppSettingsTests
     // Redirection tests - nested level
     [InlineData("{\"s\":{\"a\":null,\"$ref\":{\"a\":\"b\"}},\"b\":true}", "s:a", true)]
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":false}", "s:x:a", false)]
-    public void AppSettings_GetValue_Bool
+    public void AppSettings_GetScalar_Bool
     (
         string json,
         string key,
@@ -127,9 +123,7 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        #pragma warning disable CS0618
-                Assert.Equal(value, config.GetScalarValue<bool?>(key));
-        #pragma warning restore CS0618
+        Assert.Equal(value, config.GetScalar<bool?>(key));
     }
 
     [Theory]
@@ -146,7 +140,7 @@ public partial class AppSettingsTests
     // Redirection tests - nested level
     [InlineData("{\"s\":{\"a\":null,\"$ref\":{\"a\":\"b\"}},\"b\":\"Saturday\"}", "s:a", DayOfWeek.Saturday)]
     [InlineData("{\"s\":{\"x\":{\"a\":null,\"$ref\":{\"a\":\"b\"}}},\"b\":\"Sunday\"}", "s:x:a", DayOfWeek.Sunday)]
-    public void AppSettings_GetValue_Enum
+    public void AppSettings_GetScalar_Enum
     (
         string json,
         string key,
@@ -155,8 +149,6 @@ public partial class AppSettingsTests
     {
         IConfiguration config = AppSettings.Load.FromJsonString(json);
 
-        #pragma warning disable CS0618
-                Assert.Equal(value, config.GetScalarValue<DayOfWeek?>(key));
-        #pragma warning restore CS0618
+        Assert.Equal(value, config.GetScalar<DayOfWeek?>(key));
     }
 }

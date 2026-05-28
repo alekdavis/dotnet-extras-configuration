@@ -11,19 +11,19 @@ public static partial class AppSettings
     /// <summary>
     /// Returns a primitive application setting value for the given key.
     /// </summary>
-    /// <param name="configuration">
-    /// Application configuration settings.
-    /// </param>
     /// <typeparam name="T">
     /// Data type of the value.
     /// </typeparam>
+    /// <param name="configuration">
+    /// Application configuration settings.
+    /// </param>
     /// <param name="key">
     /// Name of the configuration setting key.
     /// </param>
     /// <returns>
     /// Configuration setting holding a single value.
     /// </returns>
-    public static T? GetScalarValue<T>
+    public static T? GetScalar<T>
     (
         this IConfiguration configuration,
         string key
@@ -55,59 +55,33 @@ public static partial class AppSettings
         return value;
     }
 
-    /// <summary>
-    /// Returns a primitive application setting value for the given key.
-    /// </summary>
-    /// <param name="configuration">
-    /// Application configuration settings.
-    /// </param>
-    /// <typeparam name="T">
-    /// Data type of the value.
-    /// </typeparam>
-    /// <param name="key">
-    /// Name of the configuration setting key.
-    /// </param>
-    /// <returns>
-    /// Configuration setting holding a single value.
-    /// </returns>
-    [Obsolete("Use GetScalarValue<T> instead.")]
+    /// <inheritdoc cref="GetScalar{T}"/>
+    [Obsolete("Use GetScalar<T> instead.")]
+    public static T? GetScalarValue<T>
+    (
+        this IConfiguration configuration,
+        string key
+    )
+    {
+        return configuration.GetScalar<T>(key);
+    }
+
+    /// <inheritdoc cref="GetScalar{T}"/>
+    [Obsolete("Use GetScalar<T> instead.")]
     public static T? GetValue<T>
     (
         IConfiguration configuration,
         string key
     )
     {
-        T? value = configuration.GetValue<T?>(key);
-
-        // For some reason, GetValue returns an empty string if the value is null,
-        // so for strings, we need special handling.
-        if ((typeof(T) == typeof(string) && string.IsNullOrEmpty(value?.ToString())) || 
-            Equals(value, default(T)))
-        {
-            string? refKey = GetRefKey(configuration, key);
-
-            if (refKey != null)
-            {
-                if (typeof(T) == typeof(string))
-                {
-                    string? resolvedValue = ResolveReference(configuration, refKey);
-                    value = resolvedValue != null ? (T)(object)resolvedValue : default;
-                }
-                else
-                {
-                    value = configuration.GetValue<T?>(refKey);
-                }
-            }
-        }
-
-        return value;
+        return configuration.GetScalar<T>(key);
     }
 
     /// <summary>
     /// Returns a configuration setting array value for the given key.
     /// </summary>
     /// <typeparam name="T">
-    /// Data type of the list elements.
+    /// Data type of the array elements.
     /// </typeparam>
     /// <param name="configuration">
     /// Application configuration settings.
@@ -118,7 +92,7 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding an array.
     /// </returns>
-    public static T[]? GetArrayValue<T>
+    public static T[]? GetArray<T>
     (
         this IConfiguration configuration,
         string key
@@ -141,6 +115,17 @@ public static partial class AppSettings
         return value;
     }
 
+    /// <inheritdoc cref="GetArray{T}"/>
+    [Obsolete("Use GetArray<T> instead.")]
+    public static T[]? GetArrayValue<T>
+    (
+        this IConfiguration configuration,
+        string key
+    )
+    {
+        return configuration.GetArray<T>(key);
+    }
+
     /// <summary>
     /// Returns a configuration setting list value for the given key.
     /// </summary>
@@ -156,7 +141,7 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding a list.
     /// </returns>
-    public static List<T>? GetListValue<T>
+    public static List<T>? GetList<T>
     (
         this IConfiguration configuration,
         string key
@@ -179,6 +164,17 @@ public static partial class AppSettings
         return value;
     }
 
+    /// <inheritdoc cref="GetList{T}"/>
+    [Obsolete("Use GetList<T> instead.")]
+    public static List<T>? GetListValue<T>
+    (
+        this IConfiguration configuration,
+        string key
+    )
+    {
+        return configuration.GetList<T>(key);
+    }
+
     /// <summary>
     /// Returns a configuration setting hash set value for the given key.
     /// </summary>
@@ -199,6 +195,22 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding a hash set.
     /// </returns>
+    public static HashSet<T>? GetHashSet<T>
+    (
+        this IConfiguration configuration,
+        string key,
+        IEqualityComparer<T>? comparer = null
+    )
+    {
+        List<T>? list = configuration.GetList<T>(key);
+
+        return list == null 
+            ? null
+            : [.. list.Distinct(comparer)];
+    }
+
+    /// <inheritdoc cref="GetHashSet{T}"/>
+    [Obsolete("Use GetHashSet<T> instead.")]
     public static HashSet<T>? GetHashSetValue<T>
     (
         this IConfiguration configuration,
@@ -206,11 +218,7 @@ public static partial class AppSettings
         IEqualityComparer<T>? comparer = null
     )
     {
-        List<T>? list = GetListValue<T>(configuration, key);
-        
-        return list == null 
-            ? null
-            : [.. list.Distinct(comparer)];
+        return configuration.GetHashSet<T>(key, comparer);
     }
 
     /// <summary>
@@ -236,7 +244,7 @@ public static partial class AppSettings
     /// <returns>
     /// Configuration setting holding a dictionary.
     /// </returns>
-    public static Dictionary<TKey,TValue?>? GetDictionaryValue<TKey,TValue>
+    public static Dictionary<TKey,TValue?>? GetDictionary<TKey,TValue>
     (
         this IConfiguration configuration,
         string key,
@@ -264,6 +272,19 @@ public static partial class AppSettings
         }
 
         return value;
+    }
+
+    /// <inheritdoc cref="GetDictionary{TKey, TValue}"/>
+    [Obsolete("Use GetDictionary<TKey, TValue> instead.")]
+    public static Dictionary<TKey,TValue?>? GetDictionaryValue<TKey,TValue>
+    (
+        this IConfiguration configuration,
+        string key,
+        IEqualityComparer<TKey>? comparer = null
+    )
+    where TKey : notnull
+    {
+        return configuration.GetDictionary<TKey, TValue>(key, comparer);
     }
 
     /// <summary>
