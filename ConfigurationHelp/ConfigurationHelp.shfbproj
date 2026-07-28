@@ -43,14 +43,14 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <HelpTitle>DotNetExtras.Configuration Library Documentation</HelpTitle>
-    <HelpFileVersion>1.1.3</HelpFileVersion>
+    <HelpFileVersion>1.1.4</HelpFileVersion>
     <NamingMethod>MemberName</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <RootNamespaceTitle>API documentation</RootNamespaceTitle>
     <NamespaceGrouping>True</NamespaceGrouping>
     <MaximumGroupParts>3</MaximumGroupParts>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="DotNetExtras.Configuration" isDocumented="True">Simplifies access and usage of the application configuration settings.</NamespaceSummaryItem>
